@@ -35,7 +35,7 @@ float tempC;
 unsigned long previousMillis = 0; // Variável para armazenar o tempo da última leitura const long interval = 80; // Intervalo desejado entre leituras em milissegundos int readingsCount = 0; // Contador de leituras por segundo 
 int previousSecond = 0; // Variável para armazenar o tempo anterior void setup(void) { 
 // Inicializa a comunicação serial 
-Serial.begin(9600); 
+Serial.begin(115200); 
 while (!Serial) 
 delay(10); 
 // Inicialização dos componentes 
