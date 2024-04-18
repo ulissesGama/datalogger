@@ -1,0 +1,70 @@
+#/////////////////////////////////////////////////////////////////////////////////////////////////////////// # // Scuderia UFABC //  
+# // Universidade Federal do ABC // 
+# // plot_datalogger_rm03_v1 // 
+#/////////////////////////////////////////////////////////////////////////////////////////////////////////// #// Última atualização: 07 de janeiro de 2024 por Carlos Saravia 
+#/////////////////////////////////////////////////////////////////////////////////////////////////////////// import matplotlib.pyplot as plt 
+# Nome do arquivo 
+nome_arquivo = 'E:\datalogger_2024_1_7_23_47_31.txt' 
+# Listas vazias para armazenar os valores das colunas 
+coluna1, coluna2, coluna3, coluna4, coluna5 = [], [], [], [], [] 
+coluna6, coluna7, coluna8, coluna9, coluna10 = [], [], [], [], [] 
+coluna11, coluna12, coluna13, coluna14, coluna15 = [], [], [], [], [] 
+coluna16, coluna17, coluna18, coluna19, coluna20 = [], [], [], [], [] 
+# Leitura do arquivo e extração dos valores das colunas 
+with open(nome_arquivo, 'r') as arquivo: 
+linhas = arquivo.readlines() 
+for linha in linhas: 
+valores = linha.split() # Separa os valores por espaços em branco 
+coluna1.append(float(valores[0])) 
+coluna2.append(float(valores[1])) 
+coluna3.append(float(valores[2])) 
+coluna4.append(float(valores[3])) 
+coluna5.append(float(valores[4])) 
+coluna6.append(float(valores[5])) 
+coluna7.append(float(valores[6])) 
+coluna8.append(float(valores[7])) 
+coluna9.append(float(valores[8])) 
+coluna10.append(float(valores[9])) 
+coluna11.append(float(valores[10])) 
+coluna12.append(float(valores[11])) 
+coluna13.append(float(valores[12])) 
+coluna14.append(float(valores[13])) 
+coluna15.append(float(valores[14])) 
+coluna16.append(float(valores[15])) 
+coluna17.append(float(valores[16])) 
+coluna18.append(float(valores[17])) 
+coluna19.append(float(valores[18])) 
+coluna20.append(float(valores[19])) 
+# Criação da lista de tempo em segundos após ter os valores das colunas 
+tempo_segundos = [i * 0.1 for i in range(len(coluna1))] # 0.1 segundos = 100 milissegundos 
+# Criar o gráfico usando os valores extraídos 
+plt.figure(figsize=(10, 6)) # Define o tamanho do gráfico (opcional) 
+plt.plot(tempo_segundos, coluna1, label='Ano') 
+plt.plot(tempo_segundos, coluna2, label='Mês') 
+plt.plot(tempo_segundos, coluna3, label='Dia') 
+plt.plot(tempo_segundos, coluna4, label='Hora')
+plt.plot(tempo_segundos, coluna5, label='Min') 
+plt.plot(tempo_segundos, coluna6, label='Seg') 
+plt.plot(tempo_segundos, coluna7, label='accelX') 
+plt.plot(tempo_segundos, coluna8, label='accelY') 
+plt.plot(tempo_segundos, coluna9, label='accelZ') 
+plt.plot(tempo_segundos, coluna10, label='gyroX') 
+plt.plot(tempo_segundos, coluna11, label='gyroY') 
+plt.plot(tempo_segundos, coluna12, label='giroZ') 
+plt.plot(tempo_segundos, coluna13, label='tempC') 
+plt.plot(tempo_segundos, coluna14, label='presFreDia') 
+plt.plot(tempo_segundos, coluna15, label='presFreTra') 
+plt.plot(tempo_segundos, coluna16, label='suspDiaDir') 
+plt.plot(tempo_segundos, coluna17, label='suspDiaEsq') 
+plt.plot(tempo_segundos, coluna18, label='suspTraDir') 
+plt.plot(tempo_segundos, coluna19, label='suspTraEsq') 
+plt.plot(tempo_segundos, coluna20, label='suspPosVol') 
+# Adiciona legendas, grade, rótulos e título 
+plt.legend() 
+plt.xlabel('Tempo (s)') # Alterado para segundos 
+plt.ylabel('Valores') 
+plt.title('Gráfico dos Sensores ao Longo do Tempo') 
+plt.grid(True) 
+# Posiciona a legenda fora do gráfico (à direita, fora da área do gráfico) plt.legend(bbox_to_anchor=(1.0, 1), loc='upper left') 
+# Mostra o gráfico 
+plt.show()
