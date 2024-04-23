@@ -26,12 +26,8 @@
 #define chipSelectPin 5 // Pino do ESP32 conectado ao chip select (CS) do módulo do cartão SD
 #define presFreDiaPin 36 // Pino do potenciômetro da pressão de fluido de freio dianteiro
 #define presFreTraPin 39 // Pino do potenciômetro da pressão de fluido de freio traseiro
-#define suspDiaDirPin 34 // Pino do potenciômetro da suspensão dianteira da direita
-#define suspTraDirPin 32 // Pino do potenciômetro da suspensão traseira da direita
-#define suspDiaEsqPin 35 // Pino do potenciômetro da suspensão dianteira da esquerda
-#define suspTraEsqPin 33 // Pino do potenciômetro da suspensão traseira da esquerda
 #define suspPosVolPin 25 // Pino do potenciômetro da posição do volante
-int presFreDia, presFreTra, suspDiaDir, suspDiaEsq, suspTraDir, suspTraEsq, suspPosVol;
+int presFreDia, presFreTra, suspPosVol;
 Adafruit_MPU6050 mpu;
 RTC_DS3231 rtc;
 File dataFile;
@@ -174,20 +170,8 @@ void Freios()
   Serial.print(" ");
 }
 void Suspensao()
-{
-  suspDiaDir = analogRead(suspDiaDirPin); // Lê o valor do potenciômetro da suspensão dianteira da direita 
-  suspDiaEsq = analogRead(suspDiaEsqPin); // Lê o valor do potenciômetro da suspensão dianteira da esquerda 
-  suspTraDir = analogRead(suspTraDirPin); // Lê o valor do potenciômetro da suspensão traseira da direita 
-  suspTraEsq = analogRead(suspTraEsqPin); // Lê o valor do potenciômetro da suspensão traseira da esquerda 
+{ 
   suspPosVol = analogRead(suspPosVolPin); // Lê o valor do potenciômetro da posição do volante
-  Serial.print(suspDiaDir);
-  Serial.print(" ");
-  Serial.print(suspDiaEsq);
-  Serial.print(" ");
-  Serial.print(suspTraDir);
-  Serial.print(" ");
-  Serial.print(suspTraEsq);
-  Serial.print(" ");
   Serial.print(suspPosVol);
   Serial.print(" ");
 }
@@ -224,14 +208,6 @@ void microSD()
     dataFile.print(presFreDia);
     dataFile.print(' ');
     dataFile.print(presFreTra);
-    dataFile.print(' ');
-    dataFile.print(suspDiaDir);
-    dataFile.print(' ');
-    dataFile.print(suspDiaEsq);
-    dataFile.print(' ');
-    dataFile.print(suspTraDir);
-    dataFile.print(' ');
-    dataFile.print(suspTraEsq);
     dataFile.print(' ');
     dataFile.print(suspPosVol);
     dataFile.print(' ');
