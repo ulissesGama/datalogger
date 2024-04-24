@@ -1,7 +1,6 @@
 #include <Arduino.h>
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Scuderia UFABC //
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// // Scuderia UFABC //
 // Universidade Federal do ABC //
 // datalogger_rm03_v1 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +28,7 @@
 #define presFreDiaPin 36 // Pino do potenciômetro da pressão de fluido de freio dianteiro
 #define presFreTraPin 39 // Pino do potenciômetro da pressão de fluido de freio traseiro
 #define suspPosVolPin 25 // Pino do potenciômetro da posição do volante
-#define interval 80      // Intervalo desejado entre leituras em milissegundos
+#define interval 19      // Intervalo desejado entre leituras em milissegundos
 #define dev
 
 Adafruit_MPU6050 mpu;
@@ -58,7 +57,7 @@ void componentes()
 #ifdef dev
     Serial.println("Falha ao inicializar o RTC");
     delay(1000);
-    esp_restart();
+    //esp_restart();
 #endif
   }
   if (!mpu.begin(0x69))
@@ -100,7 +99,7 @@ String nomeArquivo()
   fileName += String(now.minute());
   fileName += "_";
   fileName += String(now.second());
-  fileName += ".txt";
+  fileName += ".csv";
   return fileName;
 }
 
@@ -147,6 +146,7 @@ void RTC()
   // Atualiza a variável global 'now' com a data e hora atuais
   now = rtc.now();
   DateTime now = rtc.now();
+  Serial.print("RTC:");
   Serial.print(now.year());
   Serial.print(" ");
   Serial.print(now.month());
@@ -174,6 +174,7 @@ void MPU()
   gyroZ = g.gyro.z;
   tempC = temp.temperature;
   // Mostra valores de aceleração em m/s²
+  Serial.print("a:");
   Serial.print(a.acceleration.x);
   Serial.print(" ");
   Serial.print(a.acceleration.y);
@@ -181,6 +182,7 @@ void MPU()
   Serial.print(a.acceleration.z);
   Serial.print(" ");
   // Mostra valores do giroscópio em rad/s
+  Serial.print("g:");
   Serial.print(g.gyro.x);
   Serial.print(" ");
   Serial.print(g.gyro.y);
@@ -188,6 +190,7 @@ void MPU()
   Serial.print(g.gyro.z);
   Serial.print(" ");
   // Mostra valor da temperatura da placa em degC
+  Serial.print("T:");
   Serial.print(temp.temperature);
   Serial.print(" ");
 }
@@ -196,6 +199,7 @@ void Freios()
 {
   presFreDia = analogRead(presFreDiaPin); // Lê o valor do potenciômetro da pressão de fluido de freio dianteiro
   presFreTra = analogRead(presFreTraPin); // Lê o valor do potenciômetro da pressão de fluido de freio traseiro
+  Serial.print("F:");
   Serial.print(presFreDia);
   Serial.print(" ");
   Serial.print(presFreTra);
@@ -205,6 +209,7 @@ void Freios()
 void Suspensao()
 {
   suspPosVol = analogRead(suspPosVolPin); // Lê o valor do potenciômetro da posição do volante
+  Serial.print("PV:");
   Serial.print(suspPosVol);
   Serial.print(" ");
 }
@@ -214,37 +219,37 @@ void microSD()
   if (dataFile)
   {
     dataFile.print(now.year());
-    dataFile.print(' ');
+    dataFile.print(';');
     dataFile.print(now.month());
-    dataFile.print(' ');
+    dataFile.print(';');
     dataFile.print(now.day());
-    dataFile.print(' ');
+    dataFile.print(';');
     dataFile.print(now.hour());
-    dataFile.print(' ');
+    dataFile.print(';');
     dataFile.print(now.minute());
-    dataFile.print(' ');
+    dataFile.print(';');
     dataFile.print(now.second());
-    dataFile.print(' ');
+    dataFile.print(';');
     dataFile.print(accelX);
-    dataFile.print(' ');
+    dataFile.print(';');
     dataFile.print(accelY);
-    dataFile.print(' ');
+    dataFile.print(';');
     dataFile.print(accelZ);
-    dataFile.print(' ');
+    dataFile.print(';');
     dataFile.print(gyroX);
-    dataFile.print(' ');
+    dataFile.print(';');
     dataFile.print(gyroY);
-    dataFile.print(' ');
+    dataFile.print(';');
     dataFile.print(gyroZ);
-    dataFile.print(' ');
+    dataFile.print(';');
     dataFile.print(tempC);
-    dataFile.print(' ');
+    dataFile.print(';');
     dataFile.print(presFreDia);
-    dataFile.print(' ');
+    dataFile.print(';');
     dataFile.print(presFreTra);
-    dataFile.print(' ');
+    dataFile.print(';');
     dataFile.print(suspPosVol);
-    dataFile.print(' ');
+    dataFile.print(';');
     dataFile.println(); // Pula linha para proxima leitura
     dataFile.flush();   // Força a gravação dos dados no arquivo
   }
@@ -259,38 +264,38 @@ void microSDNovo()
   if (dataFile)
   {
     String data = String(now.year());
-    String data = +";";
-    String data = data + String(now.month());
-    String data = +";";
-    String data = data + String(now.day());
-    String data = +";";
-    String data = data + String(now.hour());
-    String data = +";";
-    String data = data + String(now.minute());
-    String data = +";";
-    String data = data + String(now.second());
-    String data = +";";
-    String data = data + String(accelX);
-    String data = +";";
-    String data = data + String(accelY);
-    String data = +";";
-    String data = data + String(accelZ);
-    String data = +";";
-    String data = data + String(gyroX);
-    String data = +";";
-    String data = data + String(gyroY);
-    String data = +";";
-    String data = data + String(gyroZ);
-    String data = +";";
-    String data = data + String(tempC);
-    String data = +";";
-    String data = data + String(presFreDia);
-    String data = +";";
-    String data = data + String(presFreTra);
-    String data = +";";
-    String data = data + String(suspPosVol);
-    String data = +";";
-    String data = +"\n";              // Pula linha para proxima leitura
+     data = +";";
+     data = data + String(now.month());
+     data = +";";
+     data = data + String(now.day());
+     data = +";";
+     data = data + String(now.hour());
+     data = +";";
+     data = data + String(now.minute());
+     data = +";";
+     data = data + String(now.second());
+     data = +";";
+     data = data + String(accelX);
+     data = +";";
+     data = data + String(accelY);
+     data = +";";
+     data = data + String(accelZ);
+     data = +";";
+     data = data + String(gyroX);
+     data = +";";
+     data = data + String(gyroY);
+     data = +";";
+     data = data + String(gyroZ);
+     data = +";";
+     data = data + String(tempC);
+     data = +";";
+     data = data + String(presFreDia);
+     data = +";";
+     data = data + String(presFreTra);
+     data = +";";
+     data = data + String(suspPosVol);
+     data = +";";
+     data = +"\n";              // Pula linha para proxima leitura
     dataFile.print(data);
     dataFile.flush(); // Força a gravação dos dados no arquivo
   }
@@ -324,7 +329,7 @@ void loop()
     readingsCount = 0;
   }
 
-  if (readingsCount < 10) // Verifica se ainda não atingiu 10 leituras no segundo atual
+  if (readingsCount < 52) // Verifica se ainda não atingiu 10 leituras no segundo atual
   {
     unsigned long currentMillis = millis(); // Obtém o tempo atual em milissegundos
     if (currentMillis - previousMillis >= interval)
@@ -335,8 +340,11 @@ void loop()
       Freios();                       // Atualiza dados referentes aos freios
       Suspensao();                    // Atualiza dados referentes a suspensao
       microSD();                      // Salva os dados no cartão SD
-      Serial.println();               // Pula linha para próxima leitura
+      
       readingsCount++;                // Incrementa o contador de leituras
+      Serial.print(" V/S:");
+      Serial.print(readingsCount);
+      Serial.println();               // Pula linha para próxima leitura
     }
   }
 }
